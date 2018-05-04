@@ -1,0 +1,9 @@
+<?php
+	header('Content-type:text/html;charset=utf8');
+	define('DB_HOST','localhost');//数据库主机
+	define('DB_USER','root');//数据库用户名
+	define('DB_PASSWORD','');//数据库密码
+	define('DB_DATABASE','bbs');//数据库名
+	define('DB_PORT',3306);//数据库连接端口
+	define('SALT','2018');//加密算法salt值
+?>
