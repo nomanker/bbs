@@ -13,18 +13,18 @@ session_start();
 function add_ask($title,$main,$username)
 {
     global $conn;
-    $sql = "SELECT * FROM ask_father WHERE title='{$title}'";
+    $sql = "SELECT * FROM post_father WHERE title='{$title}' and category = 0";
     $query = $conn->query($sql);
 	$result = $query ? mysqli_fetch_assoc($query) : $query;
 	if($result) {
 		return true;
 	} else {
-		$sql = "INSERT INTO ask_father(`username`,`title`,`main`) VALUES('{$username}','{$title}','{$main}')";
+		$sql = "INSERT INTO post_father(`username`,`title`,`main`,`category`) VALUES('{$username}','{$title}','{$main}',0)";
 	    $query = $conn->query($sql);
 	    if(!$query) {
 	    	return false;
 	    } else {
-	    	$sql = "SELECT * FROM ask_father WHERE title='{$title}'";
+	    	$sql = "SELECT * FROM post_father WHERE title='{$title}' and category = 0";
 		    $query = $conn->query($sql);
 		    $result = $query ? mysqli_fetch_assoc($query) : $query;
 		    if (!$result) {
@@ -43,18 +43,18 @@ function add_ask($title,$main,$username)
 function add_post($title,$main,$username)
 {
     global $conn;
-    $sql = "SELECT * FROM post_father WHERE title='{$title}'";
+    $sql = "SELECT * FROM post_father WHERE title='{$title}' and category = 1";
     $query = $conn->query($sql);
 	$result = $query ? mysqli_fetch_assoc($query) : $query;
 	if($result) {
 		return true;
 	} else {
-		$sql = "INSERT INTO post_father(`username`,`title`,`main`) VALUES('{$username}','{$title}','{$main}')";
+		$sql = "INSERT INTO post_father(`username`,`title`,`main`,`category`) VALUES('{$username}','{$title}','{$main}',1)";
 	    $query = $conn->query($sql);
 	    if(!$query) {
 	    	return false;
 	    } else {
-	    	$sql = "SELECT * FROM post_father WHERE title='{$title}'";
+	    	$sql = "SELECT * FROM post_father WHERE title='{$title}' and category = 1";
 		    $query = $conn->query($sql);
 		    $result = $query ? mysqli_fetch_assoc($query) : $query;
 		    if (!$result) {
@@ -73,7 +73,7 @@ function add_post($title,$main,$username)
 function get_post_list()
 {
     global $conn;
-    $sql = "SELECT * FROM post_father";
+    $sql = "SELECT * FROM post_father WHERE is_delete = 0 and category = 1 ORDER BY id";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
@@ -93,7 +93,7 @@ function get_post_list()
 function get_my_post($username)
 {
     global $conn;
-    $sql = "SELECT * FROM post_father WHERE username='{$username}'";
+    $sql = "SELECT * FROM post_father WHERE username='{$username}' AND is_delete = 0 and category = 1  ORDER BY id";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
@@ -113,7 +113,26 @@ function get_my_post($username)
 function get_my_ask($username)
 {
     global $conn;
-    $sql = "SELECT * FROM ask_father WHERE username='{$username}'";
+    $sql = "SELECT * FROM post_father WHERE username='{$username}' AND is_delete = 0 and category = 0 ORDER BY id";
+    $query = $conn->query($sql);
+    if (!$query) {
+        return null;
+    } else {
+        while($result = mysqli_fetch_assoc($query))
+        {
+            $data[] = $result;
+        }
+        return $data;
+    }
+}
+/**
+ * 获取所有回收站列表
+ * @return array|null
+ */
+function recycle_list()
+{
+    global $conn;
+    $sql = "SELECT * FROM post_father WHERE is_delete = 1 ORDER BY id";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
@@ -133,7 +152,7 @@ function get_my_ask($username)
 function get_ask_list()
 {
     global $conn;
-    $sql = "SELECT * FROM ask_father";
+    $sql = "SELECT * FROM post_father WHERE is_delete = 0 and category = 0 ORDER BY id";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
@@ -147,21 +166,75 @@ function get_ask_list()
 }
 
 /**
- * 删除成员
- * @param $username
+ * 清除问题
+ * @param $title
  * @return array|null
  */
-function remove($username)
+function recycle($title)
 {
     global $conn;
-    $sql = "SELECT * FROM member WHERE username='{$username}'";
+    $sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 1";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
     } else {
-    	$sql = "DELETE FROM member WHERE username='{$username}'";
+        $sql = "DELETE FROM post_father WHERE title='{$title}' and is_delete = 1";
+        $query = $conn->query($sql);
+        $sqli = "DELETE FROM post_son WHERE title='{$title}'";
+        $queryi = $conn->query($sqli);
+        $sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 1";
+        $query = $conn->query($sql);
+        $result = $query ? mysqli_fetch_assoc($query) : $query;
+        if($result){
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+/**
+ * 恢复
+ * @param $title
+ * @return array|null
+ */
+function recycle_back($title)
+{
+    global $conn;
+    $sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 1";
+    $query = $conn->query($sql);
+    if (!$query) {
+        return null;
+    } else {
+        $sql = "UPDATE post_father SET is_delete=0 WHERE title='{$title}'";
+        $query = $conn->query($sql);
+        $sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 0";
+        $query = $conn->query($sql);
+        $result = $query ? mysqli_fetch_assoc($query) : $query;
+        if($result){
+            return false;
+        } else {
+            return true;
+        }
+    }
+}
+
+/**
+ * 删除成员
+ * @param $id
+ * @return array|null
+ */
+function remove($id)
+{
+    global $conn;
+    $sql = "SELECT * FROM member WHERE id='{$id}'";
+    $query = $conn->query($sql);
+    if (!$query) {
+        return null;
+    } else {
+    	$sql = "DELETE FROM member WHERE id='{$id}'";
     	$query = $conn->query($sql);
-    	$sql = "SELECT * FROM member WHERE username='{$username}'";
+    	$sql = "SELECT * FROM member WHERE id='{$id}'";
     	$query = $conn->query($sql);
     	$result = $query ? mysqli_fetch_assoc($query) : $query;
     	if($result){
@@ -174,18 +247,18 @@ function remove($username)
 
 /**
  * 降级为成员
- * @param $username
+ * @param $id
  * @return array|null
  */
-function remove_members($username)
+function remove_members($id)
 {   $a= '2';
     global $conn;
-    $sql = "SELECT * FROM member WHERE username='{$username}'";
+    $sql = "SELECT * FROM member WHERE id='{$id}'";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
     } else {
-        $sql = "UPDATE member SET permissions='{$a}' WHERE username='{$username}'";
+        $sql = "UPDATE member SET permissions='{$a}' WHERE id='{$id}'";
         $query = $conn->query($sql);
         if(!$query){
             return false;
@@ -197,7 +270,7 @@ function remove_members($username)
 
 /**
  * 修改密码
- * @param $username,$password,$newpassword
+ * @param $id,$password,$newpassword
  * @return array|null
  */
 function alter($username,$password,$newpassword)
@@ -227,16 +300,14 @@ function alter($username,$password,$newpassword)
 function remove_ask($title)
 {
     global $conn;
-    $sql = "SELECT * FROM ask_father WHERE title='{$title}'";
+    $sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 0 and category = 0";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
     } else {
-    	$sql = "DELETE FROM ask_father WHERE title='{$title}'";
+    	$sql = "UPDATE post_father SET is_delete=1 WHERE title='{$title}' and category = 0";
     	$query = $conn->query($sql);
-        $sqli = "DELETE FROM ask_son WHERE title='{$title}'";
-        $queryi = $conn->query($sqli);
-    	$sql = "SELECT * FROM ask_father WHERE title='{$title}'";
+    	$sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 0 and category = 0";
     	$query = $conn->query($sql);
     	$result = $query ? mysqli_fetch_assoc($query) : $query;
     	if($result){
@@ -255,16 +326,14 @@ function remove_ask($title)
 function remove_post($title)
 {
     global $conn;
-    $sql = "SELECT * FROM post_father WHERE title='{$title}'";
+    $sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 0 and category = 1";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
     } else {
-    	$sql = "DELETE FROM post_father WHERE title='{$title}'";
-        $sqli = "DELETE FROM post_son WHERE title='{$title}'";
+    	$sql = "UPDATE post_father SET is_delete=1 WHERE title='{$title}' and category = 1";
     	$query = $conn->query($sql);
-        $queryi = $conn->query($sqli);
-    	$sql = "SELECT * FROM post_father WHERE title='{$title}'";
+    	$sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 0 and category = 1";
     	$query = $conn->query($sql);
     	$result = $query ? mysqli_fetch_assoc($query) : $query;
     	if($result){
@@ -283,7 +352,7 @@ function remove_post($title)
 function ask_in($title)
 {
     global $conn;
-    $sql = "SELECT * FROM ask_father WHERE title='{$title}'";
+    $sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 0 and category = 0";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
@@ -291,7 +360,7 @@ function ask_in($title)
         while($result = mysqli_fetch_assoc($query)){
             $data[]=$result;
         }
-        $sqli = "SELECT * FROM ask_son WHERE title='{$title}'";
+        $sqli = "SELECT * FROM post_son WHERE title='{$title}' and category = 0";
         $queryi = $conn->query($sqli);
         while( $resulti = mysqli_fetch_assoc($queryi)){
             $data[]=$resulti;
@@ -301,11 +370,31 @@ function ask_in($title)
 }
 
 /**
- * 进入问题
+ * 获取建议
  * @param $title
  * @return array|null
  */
-function advice_in($title)
+function advice_in()
+{
+    global $conn;
+    $sql = "SELECT * FROM advice";
+    $query = $conn->query($sql);
+    if (!$query) {
+        return null;
+    } else {
+        while($result = mysqli_fetch_assoc($query)){
+            $data[]=$result;
+        }
+        return $data;
+    }
+}
+
+/**
+ * 获取某建议
+ * @param $title
+ * @return array|null
+ */
+function advice_on($title)
 {
     global $conn;
     $sql = "SELECT * FROM advice WHERE title='{$title}'";
@@ -313,8 +402,44 @@ function advice_in($title)
     if (!$query) {
         return null;
     } else {
-        $result = mysqli_fetch_assoc($query);
-        return $result;
+        while($result = mysqli_fetch_assoc($query)){
+            $data[]=$result;
+        }
+        return $data;
+    }
+}
+
+/**
+ * 删除建议
+ * @param $title
+ * @return array|null
+ */
+function deladvice($title)
+{
+    global $conn;
+    $sql = "DELETE FROM advice WHERE title='{$title}'";
+    $query = $conn->query($sql);
+    if (!$query) {
+        return null;
+    } else {
+        return true;
+    }
+}
+
+/**
+ * 发建议
+ * @param $title
+ * @return array|null
+ */
+function send_advice($title,$main,$username)
+{
+    global $conn;
+    $sql = "INSERT INTO advice(`username`,`title`,`main`) VALUES('{$username}','{$title}','{$main}')";
+    $query = $conn->query($sql);
+    if (!$query) {
+        return null;
+    } else {
+        return true;
     }
 }
 
@@ -326,7 +451,7 @@ function advice_in($title)
 function post_in($title)
 {
     global $conn;
-    $sql = "SELECT * FROM post_father WHERE title='{$title}'";
+    $sql = "SELECT * FROM post_father WHERE title='{$title}' and is_delete = 0 and category = 1";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
@@ -334,7 +459,7 @@ function post_in($title)
         while($result = mysqli_fetch_assoc($query)){
             $data[]=$result;
         }
-        $sqli = "SELECT * FROM post_son WHERE title='{$title}'";
+        $sqli = "SELECT * FROM post_son WHERE title='{$title}' and category = 1";
         $queryi = $conn->query($sqli);
         while($resulti = mysqli_fetch_assoc($queryi)){
             $data[]=$resulti;
@@ -352,17 +477,17 @@ function post_in($title)
 function go_ask($write,$title,$username)
 {
     global $conn;
-    $sql = "SELECT * FROM ask_son WHERE title='{$title}'";
+    $sql = "SELECT * FROM post_son WHERE title='{$title}' and category = 0";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
     } else {
-        $sql = "INSERT INTO ask_son(`username`,`title`,`answer`) VALUES('{$username}','{$title}','{$write}')";
+        $sql = "INSERT INTO post_son(`username`,`title`,`answer`,`category`) VALUES('{$username}','{$title}','{$write}',0)";
         $query = $conn->query($sql);
         if(!$query) {
             return false;
         } else {
-            $sql = "SELECT * FROM ask_son WHERE title='{$title}'";
+            $sql = "SELECT * FROM post_son WHERE title='{$title}' and category = 0";
             $query = $conn->query($sql);
             while( $result = mysqli_fetch_assoc($query)){
                 $data[]=$result;
@@ -380,17 +505,17 @@ function go_ask($write,$title,$username)
 function go_post($write,$title,$username)
 {
     global $conn;
-    $sql = "SELECT * FROM post_son WHERE title='{$title}'";
+    $sql = "SELECT * FROM post_son WHERE title='{$title}' and category = 1";
     $query = $conn->query($sql);
     if (!$query) {
         return null;
     } else {
-        $sql = "INSERT INTO post_son(`username`,`title`,`answer`) VALUES('{$username}','{$title}','{$write}')";
+        $sql = "INSERT INTO post_son(`username`,`title`,`answer`,`category`) VALUES('{$username}','{$title}','{$write}',1)";
         $query = $conn->query($sql);
         if(!$query) {
             return false;
         } else {
-            $sql = "SELECT * FROM post_son WHERE title='{$title}'";
+            $sql = "SELECT * FROM post_son WHERE title='{$title}' and category = 1";
             $query = $conn->query($sql);
             while( $result = mysqli_fetch_assoc($query)){
                 $data[]=$result;
@@ -399,7 +524,30 @@ function go_post($write,$title,$username)
         }
     }
 }
-
+/**
+ * 获取搜索帖子
+ * *@param $keywords
+ * @return array|null
+ */
+function search($keywords)
+{
+    global $conn;
+    $sql = "SELECT * FROM post_father WHERE title like '%$keywords%'";
+    $query = $conn->query($sql);
+    $data=[];
+    if (!$query) {
+        return null;
+    } else {
+        while($result = mysqli_fetch_assoc($query))
+        {
+            $data[] = $result;
+        }
+        if(!$data){
+            return null;
+        }
+        return $data;
+    }
+}
 /**
  * 获取所有会员列表
  * @return array|null
@@ -484,15 +632,15 @@ if ($act == "get_common_list") {//获取用户列表
         $data["data"] = $result;
     }
 } else if ($act == "remove") {//删除成员
-	if (!isset($_GET["username"])) {
+	if (!isset($_GET["id"])) {
         $data["code"] = -1;
         $data["msg"] = "请检查提交的参数。";
         $conn->close();
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         exit();
     }
-    $username = $_GET['username'];
-    $result = remove($username);
+    $id = $_GET['id'];
+    $result = remove($id);
     if ($result === null) {
         $data["code"] = -1;
         $data["msg"] = "删除失败，该成员不存在！";
@@ -504,15 +652,15 @@ if ($act == "get_common_list") {//获取用户列表
         $data["msg"] = "删除成功！";
     }
 } else if ($act == "remove_members") {//降级为成员
-    if (!isset($_GET["username"])) {
+    if (!isset($_GET["id"])) {
         $data["code"] = -1;
         $data["msg"] = "请检查提交的参数。";
         $conn->close();
         echo json_encode($data, JSON_UNESCAPED_UNICODE);
         exit();
     }
-    $username = $_GET['username'];
-    $result = remove_members($username);
+    $id = $_GET['id'];
+    $result = remove_members($id);
     if ($result === null) {
         $data["code"] = -1;
         $data["msg"] = "降级失败，该会员不存在！";
@@ -567,7 +715,7 @@ if ($act == "get_common_list") {//获取用户列表
 	$result = get_post_list();
 	if ($result === null) {
         $data["code"] = -1;
-        $data["msg"] = "获取用户列表失败！";
+        $data["msg"] = "获取帖子列表失败！";
     } else {
         $data["data"] = $result;
     }
@@ -718,6 +866,78 @@ if ($act == "get_common_list") {//获取用户列表
     } else {
         $data["msg"] = "回复成功！";
         $data["data"] = $result;
+    }
+} else if ($act == "search") {//搜索帖子
+    $keywords=$_GET['keywords'];
+    $result = search($keywords);
+    if ($result === null) {
+        $data["code"] = -1;
+        $data["msg"] = "未找到，请重新输入关键词！";
+    } else {
+        $data["data"] = $result;
+    }
+} else if ($act == "advice_in") {//获取建议
+    $result = advice_in();
+    if ($result === null) {
+        $data["code"] = -1;
+        $data["msg"] = "还没有任何建议！";
+    } else {
+        $data["data"] = $result;
+    }
+} else if ($act == "advice_on") {//获取某建议
+    $title=$_GET['title'];
+    $result = advice_on($title);
+    if ($result === null) {
+        $data["code"] = -1;
+        $data["msg"] = "该建议不存在！";
+    } else {
+        $data["data"] = $result;
+    }
+} else if ($act == "deladvice") {//获取某建议
+    $title=$_POST['title'];
+    $result = deladvice($title);
+    if ($result==null) {
+        $data["code"] = -1;
+        $data["msg"] = "删除失败！";
+    } else {
+        $data["msg"] = "删除成功！";
+    }
+} else if ($act == "send_advice") {//发建议
+    $main=$_GET['main'];
+    $title=$_GET['title'];
+    $username = $_SESSION['username'];
+    $result = send_advice($title,$main,$username);
+    if ($result === null) {
+        $data["code"] = -1;
+        $data["msg"] = "建议发送失败！";
+    } else {
+        $data["msg"] = "建议发送成功！";
+    }
+} else if ($act == "recycle_list") {//获取回收站列表
+    $result = recycle_list();
+    if ($result === null) {
+        $data["code"] = -1;
+        $data["msg"] = "获取回收站列表失败！";
+    } else {
+        $data["data"] = $result;
+    }
+} else if ($act == "recycle") {//清除列表
+    $title=$_GET['title'];
+    $result = recycle($title);
+    if ($result === null) {
+        $data["code"] = -1;
+        $data["msg"] = "清除失败！";
+    } else {
+       $data["msg"] = "清除成功！";
+    }
+} else if ($act == "recycle_back") {//恢复列表
+    $title=$_GET['title'];
+    $result = recycle_back($title);
+    if ($result === null) {
+        $data["code"] = -1;
+        $data["msg"] = "恢复失败！";
+    } else {
+        $data["msg"] = "恢复成功！";
     }
 } 
 $conn->close();//关闭数据库连接，如果提前结束流程输出一定要自己$conn->close();关闭数据库连接

@@ -1,44 +1,39 @@
 <?php
-	require_once "../inc/admin_check_session.php";
+require_once "../inc/admin_check_session.php";
 ?>
 <!DOCTYPE HTML>
 <html>
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,use-scalable=no">
-	<title>管理员 - 简单小论坛</title>
+	<title>建议箱 - 简单小论坛</title>
 	<link href="../public/images/favicon.ico" rel="shortcut icon" type="image/x-icon" media="screen">
-	<link href="../public/css/admin.css" rel="stylesheet" type="text/css"/>
+	<link href="../public/css/index.css" rel="stylesheet" type="text/css"/>
 	<link href="../public/css/table.css" rel="stylesheet" type="text/css" media="all"/>
 	<script src="../public/js/jquery-1.8.2.min.js" type="text/javascript"></script>
 	<script src="../public/js/jquery1.7.js" type="text/javascript"></script>
 </head>
 <body>
 <div class="header clearfix">
-	<div class="logo"><a href="javascript:;">LOGO</a></div>
-	<div class="nav_btn" id="nav_btn">三</div>
-	<div class="search"> 
-		<input type="text" class="search_text" placeholder="搜帖、问题..." id="keywords" name="keywords">
-    	<button type="submit" class="search_btn" id="submit" name="submit" ></button>
+    <div class="logo"><a href="javascript:;">LOGO</a></div>
+    <div class="nav_btn" id="nav_btn">三</div>
+    <div class="search"> 
+        <input type="text" class="search_text" placeholder="搜帖、问题..." id="keywords" name="keywords">
+        <button type="submit" class="search_btn" id="submit" name="submit" ></button>
     </div>
-	<ul class="nav clearfix" id="nav">
-		<li><a href="./index.php">首    页</a></li>
-		<li><a href="http://www.cnnic.net.cn/">新闻资讯</a></li>
-		<li><a href="./advices.php">建议箱</a></li>
-	</ul>
-	<div class="operation">
-		<div class="login"><a href="./admin.php">后    台</a></div>
-		<div class="register"><a href="../logout.php">退    出</a></div>
-	</div>
+    <ul class="nav clearfix" id="nav">
+        <li><a href="./index.php">首    页</a></li>
+        <li><a href="http://www.cnnic.net.cn/">新闻资讯</a></li>
+        <li><a href="javascript:;">建议箱</a></li>
+    </ul>
+    <div class="operation">
+        <div class="login"><a href="./admin.php">后    台</a></div>
+        <div class="register"><a href="../logout.php">退    出</a></div>
+    </div>
 </div>
 <div class="container clearfix" id="container">
-	<div class="content_top content-top public-nav">
-		<div class="posts content-right_btn"><a href="javascript:;" index="0" class="reveal_nav curr_nav">最新帖</a></div>
-		<div class="posting content-right_btn"><a href="javascript:;" index="1" class="reveal_nav">发    帖</a></div>
-		<div class="quiz content-right_btn"><a href="javascript:;" index="2" class="reveal_nav">提    问</a></div>
-	</div>
 	<div class="content content-left">
-		<div class="reveal_div curr_div">
+		<div class="curr_div">
 			<div class="question_answer">
 				<table class="table-style">
                         <thead>
@@ -55,40 +50,35 @@
 			</div>
 			<div class="latest_posts">
 				<table class="table-style">
-                        <thead>
+                    <thead>
                         <tr class="text-c">
                             <th width="100">楼主</th>
                             <th width="500">标题</th>
                             <th width="100">操作</th>
                         </tr>
-                        </thead>
-                        <tbody id="post">
-                        <!-- 数据显示区 -->
-                        </tbody>
-                    </table>
-			</div>
-		</div>
-		<div class="reveal_div">
-			<div class="form">
-				<input type="text" id="posting_title" name="posting_title" class="title" placeholder="标题(20字以内)" maxlength="20">
-				<textarea name="posting_main" class="main" id="posting_main" placeholder="内容....(90字以内)" maxlength="90" clos="10" rows="5" warp="virtual"></textarea>
-				<input type="submit" name="submit" value="提交" class="posting_btn" id="posting">
-			</div>
-		</div>
-		<div class="reveal_div">
-			<div class="form">
-				<input type="text" id="quiz_title" name="quiz_title" class="title" placeholder="概括问题(20字以内)" maxlength="20">
-				<textarea name="quiz_main" class="main" id="quiz_main" placeholder="描述问题....(90字以内)" maxlength="90" clos="10" rows="5" warp="virtual"></textarea>
-				<input type="submit" name="submit" value="提交" class="posting_btn" id="quiz">
+                    </thead>
+                    <tbody id="post">
+                    <!-- 数据显示区 -->
+                    </tbody>
+                </table>
 			</div>
 		</div>
 	</div>
 	<div class="content content-right public-nav">
-		<div class="posts content-right_btn"><a href="javascript:;" index="0" class="reveal_nav curr_nav">最新帖</a></div>
-		<div class="posting content-right_btn"><a href="javascript:;" index="1" class="reveal_nav">发    帖</a></div>
-		<div class="quiz content-right_btn"><a href="javascript:;" index="2" class="reveal_nav">提    问</a></div>
+		<table class="table-style">
+                    <thead>
+                        <tr class="text-c">
+                            <th width="100">楼主</th>
+                            <th width="500">建议标题</th>
+                            <th width="100">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="advices">
+                    <!-- 数据显示区 -->
+                    </tbody>
+                </table>
 	</div>
-</div>
+</div> 
 <div class="container-in clearfix hid" id="container_in">
     <div class="content-in">
         <div class="back" id="back" style="float: right; margin: 10px 8px -10px 0;"><a href="javascript:;">返回</a></div>
@@ -97,8 +87,8 @@
             <div class="host">楼主：<span></span></div>
             <div class="main"><p style="text-indent:2em;"></p></div>
             <div class="write">
-                <textarea name="write" class="write_main" id="write" placeholder="说点什么....(90字以内)" maxlength="90" clos="10" rows="5" warp="virtual"></textarea>
-                <input type="submit" name="go" id="gom" style="font-size: 16px;" value="发表">
+                <textarea name="write" class="write_main" id="write" placeholder="说点什么....(50字以内)" maxlength="50" clos="10" rows="5" warp="virtual"></textarea>
+                <input type="submit" name="go" id="go" style="font-size: 16px;" value="发表">
             </div>
             <div class="answer">
                 <table class="table-style">
@@ -124,7 +114,7 @@
             <div class="host">楼主：<span></span></div>
             <div class="main"><p style="text-indent:2em;"></p></div>
             <div class="write">
-                <textarea name="write" class="write_main" id="write2" placeholder="说点什么....(90字以内)" maxlength="50" clos="10" rows="5" warp="virtual"></textarea>
+                <textarea name="write" class="write_main" id="write2" placeholder="说点什么....(50字以内)" maxlength="50" clos="10" rows="5" warp="virtual"></textarea>
                 <input type="submit" name="go" id="go2" style="font-size: 16px;" value="发表">
             </div>
             <div class="answer">
@@ -143,38 +133,18 @@
         </div>
     </div>
 </div>
+<div class="container-in clearfix hid" id="container_in3">
+    <div class="content-in">
+        <div class="back" id="back3" style="float: right; margin: 10px 8px -10px 0;"><a href="javascript:;">返回</a></div>
+        <div class="topic" id="topic3">
+            <div class="title"></div>
+            <div class="host">发送人：<span></span></div>
+            <div class="main"><p style="text-indent:2em;"></p></div>
+        </div>
+        <div class="del" ><input style="position: relative;top:-40px;width:60px;height:30px;" type="button" id="deladvice" name="" value="删除"></div>
+    </div>
+</div>
 <script type="text/javascript" src="../public/js/index.js"></script>
-<script>
-    function getClass(className) { //className指class值
-        var tagname = document.getElementsByTagName("*");  //获取指定元素
-        var tagnameAll = [];     //数组用于存储所符合条件元素
-            for (var i = 0; i < tagname.length; i++) {     //遍历获元素
-                if (tagname[i].className.indexOf(className)>=0){     //获元素class值等于指定类名赋值给tagnameAll
-                    tagnameAll[tagnameAll.length] = tagname[i];
-                }
-            }
-            return tagnameAll;           
-        }
-    window.onload=function(){//载入事件
-        var btn=getClass("reveal_nav");//获取按钮数组
-        var div=getClass("reveal_div");//获取div数组
-            for(i=0;i<btn.length;i++){
-                btn[i].onclick=function(){//按钮点击事件
-                    var index=(this.getAttribute("index")-0);//获取第几按钮按
-                    if(btn[index].className.indexOf("curr_nav")>=0) return;//按按钮前选按钮则反应
-                    for(i=0;i<btn.length;i++){
-                        if(index==i){
-                            btn[i].className="reveal_nav curr_nav";
-                            div[i].className="reveal_div curr_div";
-                        }else{
-                            btn[i].className="reveal_nav";
-                            div[i].className="reveal_div";
-                        }
-                    }
-                }
-            }
-    }
-</script>
 <script type="text/javascript">
 $(function (){
     $('#submit').on('click',function(){
@@ -242,65 +212,65 @@ $(function (){
                     });
             }
         });
-	$('#posting').on('click',function(){
+    $('#posting').on('click',function(){
             var posting_title = $("#posting_title").val().trim();
-        	var	posting_main = $("#posting_main").val().trim();
-			if (!posting_main || !posting_title) {
-				alert("请输入标题和内容!");
+            var posting_main = $("#posting_main").val().trim();
+            if (!posting_main || !posting_title) {
+                alert("请输入标题和内容!");
                 return;
             } 
             $.ajax({
-	            url:"../public/operate.php?act=add_post",
-	            method:"post",
-	            datatype:"json",
-	            data:{
-	            	posting_main:posting_main,
-	            	posting_title:posting_title
-	            },
-	            success:function(data){
+                url:"../public/operate.php?act=add_post",
+                method:"post",
+                datatype:"json",
+                data:{
+                    posting_main:posting_main,
+                    posting_title:posting_title
+                },
+                success:function(data){
                     $("#posting_title").val('');
                     $("#posting_main").val('');
-	                var result = $.parseJSON(data);
-	                alert(result.msg);
+                    var result = $.parseJSON(data);
+                    alert(result.msg);
                     var post_list = $("#post");
                     var posts = result.data;
                     var post_dom = get_post(posts);
                     post_list.append(post_dom);
-	            },
-	            error:function(data){
-	                alert('发帖失败！');
-	            }
-	        });
+                },
+                error:function(data){
+                    alert('发帖失败！');
+                }
+            });
         });
-	$('#quiz').on('click',function(){
+    $('#quiz').on('click',function(){
             var quiz_title = $("#quiz_title").val().trim();
-        	var	quiz_main = $("#quiz_main").val().trim();
-			if (!quiz_main || !quiz_title) {
-				alert("请输入标题和内容!");
+            var quiz_main = $("#quiz_main").val().trim();
+            if (!quiz_main || !quiz_title) {
+                alert("请输入标题和内容!");
                 return;
             } 
             $.ajax({
-	            url:"../public/operate.php?act=add_ask",
-	            method:"post",
-	            datatype:"json",
-	            data:{
-	            	quiz_main:quiz_main,
-	            	quiz_title:quiz_title
-	            },
-	            success:function(data){
+                url:"../public/operate.php?act=add_ask",
+                method:"post",
+                datatype:"json",
+                data:{
+                    quiz_main:quiz_main,
+                    quiz_title:quiz_title
+                },
+                success:function(data){
                     $("#quiz_title").val('');
                     $("#quiz_main").val('');
-	                var result = $.parseJSON(data);
-	                alert(result.msg);
+                    var result = $.parseJSON(data);
+                    alert(result.msg);
                     var ask_list = $("#ask");
                     var asks = result.data;
                     var ask_dom = get_ask(asks);
                     ask_list.append(ask_dom);
-	            },
-	            error:function(data){
-	                alert('发问题失败！!!!');
-	            }
-	        });
+                },
+                error:function(data){
+                    alert('发问题失败！!!!');
+                }
+            });
         });
         $.ajax({
             url:"../public/operate.php?act=get_post_list",
@@ -321,6 +291,27 @@ $(function (){
             },
             error:function(data){
                 alert('获取帖子列表失败！');
+            }
+        });
+        $.ajax({
+            url:"../public/operate.php?act=advice_in",
+            method:"get",
+            datatype:"json",
+            success:function(data){
+                var result = $.parseJSON(data);
+                if (result.code!=0){
+                    alert(result.msg);
+                    return;
+                }
+                var advices_list = $("#advices");
+                var advices = result.data;
+                for( var i = 0 , j = advices.length ; i < j ; i++) {
+                    var advices_dom = get_advices(advices[i]);
+                    advices_list.append(advices_dom);
+                }
+            },
+            error:function(data){
+                alert('获取建议列表失败！');
             }
         });
         $.ajax({
@@ -366,6 +357,28 @@ $(function (){
                     //返回
                     return row_obj;
                 }
+                //获取建议模块
+        function get_advices(data){
+                    var row_obj = $('<tr class="text-c"></tr>');
+                    var old_data = ["username","title"];
+                    for(var j = 1;j <3;j++){
+                        var col_td = $("<td></td>");
+                        old_data[0] = data.username;
+                        old_data[1] = data.title;
+                        col_td.text(old_data[j-1]);
+                        row_obj.append(col_td);
+                    }
+                    //操作按钮
+                    var Button = $('<a title="查看建议内容" href="javascript:;" style="text-decoration:none">查看建议</a>');
+                    Button.attr("title",data['title']);
+                    Button.click(advices_in);
+
+                    var opt_td = $('<td></td>');
+                    opt_td.append(Button);
+                    row_obj.append(opt_td);
+                    //返回
+                    return row_obj;
+                }
                 //获取帖子模块
         function get_post(data){
                     var row_obj = $('<tr class="text-c"></tr>');
@@ -388,6 +401,57 @@ $(function (){
                     //返回
                     return row_obj;
                 }
+        //进入建议
+        function advices_in(title){
+            var title = $(this).attr("title");
+            var back = $("#container_in3");
+            back.removeClass('hid');
+            back.addClass('show');
+            var come = $("#container");
+            come.addClass('hid');
+            come.removeClass('show');
+            $.ajax({
+            url:"../public/operate.php?act=advice_on",
+            method:"post",
+            data: {
+                    title:title,
+                },
+            datatype:"json",
+            success:function(data){
+                var result = $.parseJSON(data);
+                if (result.code!=0){
+                    alert(result.msg);
+                    return;
+                }
+                $("#topic3 .title").text(result.data[0].title);
+                $("#topic3 .host span").text(result.data[0].username);
+                $("#topic3 .main p").text(result.data[0].main);
+                $('#deladvice').on('click',function(){
+                        var title = result.data[0].title;
+                            $.ajax({
+                                url: "../public/operate.php?act=deladvice",
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    "title":title
+                                },
+                                success: function (datai) {
+                                    if (datai.msg!=''){
+                                        alert(datai.msg);
+                                    }
+                                    window.location.reload();
+                                },
+                                error: function (data) {
+                                    alert("删除失败！");
+                                }
+                            });
+                      });
+            },
+            error:function(data){
+                alert('获取建议内容失败！');
+            }
+        });
+        }
         //进入问题
         function ask_in(title){
             var title = $(this).attr("title");
@@ -570,6 +634,14 @@ $(function (){
         });
         $('#back2').on('click',function(){
             var back = $("#container_in2");
+            back.addClass('hid');
+            back.removeClass('show');
+            var come = $("#container");
+            come.removeClass('hid');
+            come.addClass('show');
+        });
+        $('#back3').on('click',function(){
+            var back = $("#container_in3");
             back.addClass('hid');
             back.removeClass('show');
             var come = $("#container");

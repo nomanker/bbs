@@ -17,7 +17,7 @@ function vcode($width=120,$height=40,$fontSize=30,$countElement=5,$countPixel=10
 	for($i=0;$i<$countLine;$i++){
 		imageline($img,rand(0,$width/2),rand(0,$height),rand($width/2,$width),rand(0,$height),imagecolorallocate($img,rand(100,200),rand(100,200),rand(100,200)));
 	}
-	imagettftext($img,$fontSize,rand(-5,5),rand(5,15),rand(30,35),$colorString,'font/ManyGifts.ttf',$string);
+	imagettftext($img,$fontSize,rand(-5,5),rand(5,15),rand(30,35),$colorString,'./public/font/ManyGifts.ttf',$string);
 	imagejpeg($img);
 	imagedestroy($img);
 	return $string;
