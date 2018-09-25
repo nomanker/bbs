@@ -15,7 +15,7 @@ require_once "../inc/members_check_session.php";
 </head>
 <body>
 <div class="header clearfix">
-	<div class="logo"><a href="javascript:;">LOGO</a></div>
+	<div class="logo"><a href="/">LOGO</a></div>
 	<div class="nav_btn" id="nav_btn">三</div>
 	<div class="search"> 
 		<input type="text" class="search_text" placeholder="搜帖、找人..." id="keywords" name="keywords">
@@ -25,6 +25,8 @@ require_once "../inc/members_check_session.php";
 		<li><a href="./members.php">首    页</a></li>
 		<li><a href="http://www.cnnic.net.cn/">新闻资讯</a></li>
 		<li><a href="./advice.php">写建议</a></li>
+        <li><a href="./admin.php" class="phone">后    台</a></li>
+        <li><a href="../logout.php" class="phone">退   出</a></li>
 	</ul>
 	<div class="operation">
 		<div class="login"><a href="./admin.php">后    台</a></div>
@@ -338,6 +340,12 @@ $(function (){
                                                 alert('相关帖子内容如下！');
                                             }
                                 }
+                                var back = $("#container_in2");
+                                back.addClass('hid');
+                                back.removeClass('show');
+                                var come = $("#container");
+                                come.removeClass('hid');
+                                come.addClass('show');
                         },
                         error:function(data){
                             alert('搜索的内容失败!!!');

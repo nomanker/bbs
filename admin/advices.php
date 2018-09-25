@@ -15,7 +15,7 @@ require_once "../inc/admin_check_session.php";
 </head>
 <body>
 <div class="header clearfix">
-    <div class="logo"><a href="javascript:;">LOGO</a></div>
+    <div class="logo"><a href="/">LOGO</a></div>
     <div class="nav_btn" id="nav_btn">三</div>
     <div class="search"> 
         <input type="text" class="search_text" placeholder="搜帖、问题..." id="keywords" name="keywords">
@@ -25,6 +25,8 @@ require_once "../inc/admin_check_session.php";
         <li><a href="./index.php">首    页</a></li>
         <li><a href="http://www.cnnic.net.cn/">新闻资讯</a></li>
         <li><a href="javascript:;">建议箱</a></li>
+        <li><a href="./admin.php" class="phone">后   台</a></li>
+        <li><a href="../logout.php" class="phone">退   出</a></li>
     </ul>
     <div class="operation">
         <div class="login"><a href="./admin.php">后    台</a></div>
@@ -32,7 +34,7 @@ require_once "../inc/admin_check_session.php";
     </div>
 </div>
 <div class="container clearfix" id="container">
-	<div class="content content-left">
+	<div class="content content-left hid_other">
 		<div class="curr_div">
 			<div class="question_answer">
 				<table class="table-style">
@@ -64,7 +66,7 @@ require_once "../inc/admin_check_session.php";
 			</div>
 		</div>
 	</div>
-	<div class="content content-right public-nav">
+	<div class="content content-right public-nav show_advice">
 		<table class="table-style">
                     <thead>
                         <tr class="text-c">

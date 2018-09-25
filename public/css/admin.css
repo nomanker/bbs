@@ -357,6 +357,41 @@ img{
  		content: 'small';
  	}
  	.header > .search {
+		display: block;
+	}
+ 	.container > .content_admin > .content_admin-nav {
+		float: left;
+		width: 100%;
+	}
+	.container > .content_admin > .content_admin-nav > .public-nav {
+		margin: 30px 40px;
+		border: 1px solid #D66D50;
+	}
+	.container > .content_admin > .content_admin-nav > .public-nav > li {
+		float: left;
+		height: 36px;
+		width: 25%;
+		border: 1px solid #D66D50;
+		
+	}
+	.container > .content_admin > .content_admin-nav > .public-nav > li > .reveal_nav {
+		display: block;
+		height: 36px;
+		width: 100%;
+		line-height: 36px;
+		font-size: 16px;
+	}
+	.container > .content_admin > .content_admin-nav > .public-nav > li > .reveal_nav:hover,.curr_nav {
+		color: #FDA301;
+		border: none;
+		background: #33348E;
+	}
+	.container > .content_admin > .content_admin-show {
+		width: 100%;
+		float: right;
+
+	}
+ 	.header > .operation {
 		display: none;
 	}
  	.header > .nav {
@@ -439,6 +474,9 @@ img{
 	.header > .operation {
 		margin-right: -30px; 
 	}
+	.phone {
+		display: none;
+	}
 }
 /**
 * 大屏幕
@@ -449,5 +487,8 @@ img{
 	}
 	.header > .operation {
 		margin-right: 136px; 
+	}
+	.phone {
+		display: none;
 	}
 }

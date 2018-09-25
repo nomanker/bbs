@@ -1,11 +1,16 @@
 <?php
 require_once "public/functions.php";
 require_once "configure/config.php";
-
+if(!empty($_GET)) {
+	exit();
+}
 if (!isset($_POST["username"]) || !isset($_POST["password"])) {
     exit();
 }
 session_start();
+$_GET = _addslashes($_GET);
+$_POST = _addslashes($_POST);
+$_SESSION = _addslashes($_SESSION);
 $username = $_POST["username"];
 $password = encrypt($_POST["password"]);
 if($_POST["vcode"] != $_SESSION["vcode"]) {
@@ -23,14 +28,14 @@ if($_POST["vcode"] != $_SESSION["vcode"]) {
 	mysqli_query($conn,'set names utf8');
     if ($conn) {
         $conn->query("set names utf8");
-        $sql = "SELECT * FROM member WHERE username='{$username}'";
+        $sql = "SELECT * FROM member WHERE username='{$username}' AND password='{$password}'";
         $query = $conn->query($sql);
         $result = $query ? mysqli_fetch_assoc($query) : $query;
         if (!$result) {
             $data["code"] = -1;
             $data["msg"] = "用户不存在，请注册！";
 		} else {
-			if ($password != $result["password"]) {
+			if ($password !== $result["password"]) {
 				$data["code"] = -1;
                 $data["msg"] = "密码错误！";
 			} else {

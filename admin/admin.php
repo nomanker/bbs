@@ -15,7 +15,7 @@ require_once "../inc/admin_check_session.php";
 </head>
 <body>
 <div class="header clearfix">
-	<div class="logo"><a href="javascript:;">LOGO</a></div>
+	<div class="logo"><a href="/">LOGO</a></div>
 	<div class="nav_btn" id="nav_btn">三</div>
 	<div class="search"> 
 		<input type="text" class="search_text" placeholder="搜帖、找人..." id="keywords" name="keywords">
@@ -25,6 +25,8 @@ require_once "../inc/admin_check_session.php";
 		<li><a href="./index.php">首    页</a></li>
 		<li><a href="http://www.cnnic.net.cn/">新闻资讯</a></li>
 		<li><a href="./advices.php">建议箱</a></li>
+        <li><a href="./index.php" class="phone">主   页</a></li>
+        <li><a href="../logout.php" class="phone">退   出</a></li>
 	</ul>
 	<div class="operation">
 		<div class="login"><a href="./index.php">主    页</a></div>

@@ -1,27 +1,65 @@
 # bbs
-个人学习 - 简单论坛小系统 
+个人学习PHP - 简单论坛小系统 
  
-1.登录后可通过session(后端)或cookie(前端与后端)取得的信息  
+采用原生PHP开发
 
-    $_SESSION["id"];//用户id  
-    $_SESSION["username"];//用户名  
-    $_SESSION["permissions"];//权限级别.0-管理员，1-会员，2-用户  
+目录结构：
+--bbs
+	--admin
+	#管理员目录
+		--admin.php
+		--advices.php
+		--index.php
+	--configure
+	#配置文件目录（常量定义）
+		--config.php
+	--inc
+	#权限验证文件、数据库操作文件、生成验证码文件目录
+		--admin_check_session.php
+		--common_check_session.php
+		--members_check_session.php
+		--mysql.php
+		--vcode.php
+	--public
+	#静态资源文件、公共函数文件、接口定义文件目录
+		--css
+			--admin.css
+			--index.css
+			--login.csss
+			--register.css
+			--table.css
+		--font
+			--ManyGifts.ttf
+		--images  
+			#图片资源
+		--js
+			--index.js
+			--jquery1.7.js
+			--jquery-1.8.2.min.js
+		--functions.php
+		--operate.php
+	--users
+	#会员、普通用户目录
+		--_upgrade.php
+		--admin.php
+		--advice.php
+		--common.php
+		--members.php
+		--upgrade.php
+	#首页文件
+	--index.html
+	#登陆前端文件
+	--login.html
+	#登陆处理文件
+	--login.php
+	#注销处理文件
+	--logout.php
+	#注册前端文件
+	--register.html
+	#注册处理文件
+	--register.php
+	#路由文件
+	--router.js
+	#验证码显示处理文件
+	--show_code.php
 
-2.pubilc目录为公用目录，存放静态资源文件、公共函数(functions.php)、数据库(*.sql)等  
-
-3.configure目录放置配置文件config.php
-
-4.数据库bbs.sql直接导入(数据库名bbs)。   
-    
-   已有5个测试账号  
-   
-    一号 - 管理员  
-    二号 - 会员  
-    三号 - 会员
-    四号 - 普通用户
-    五号 - 普通用户 
-      
-    密码均为：2018
-
-
-2018-02-26（完成）

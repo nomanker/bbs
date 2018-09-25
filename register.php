@@ -1,11 +1,16 @@
 <?php
 require_once "public/functions.php";
 require_once "configure/config.php";
-
+if(!empty($_GET)) {
+    exit();
+}
 if (!isset($_POST["username"]) || !isset($_POST["password"])) {
     exit();
 }
 session_start();
+$_GET = _addslashes($_GET);
+$_POST = _addslashes($_POST);
+$_SESSION = _addslashes($_SESSION);
 $username = $_POST["username"];
 $password = encrypt($_POST["password"]);
 if($_POST["vcode"] != $_SESSION["vcode"]) {
