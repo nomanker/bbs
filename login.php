@@ -28,16 +28,19 @@ if($_POST["vcode"] != $_SESSION["vcode"]) {
 	mysqli_query($conn,'set names utf8');
     if ($conn) {
         $conn->query("set names utf8");
-        $sql = "SELECT * FROM member WHERE username='{$username}' AND password='{$password}'";
+        $sql = "SELECT * FROM member WHERE username='{$username}'";
         $query = $conn->query($sql);
         $result = $query ? mysqli_fetch_assoc($query) : $query;
         if (!$result) {
             $data["code"] = -1;
             $data["msg"] = "用户不存在，请注册！";
 		} else {
+			$sql = "SELECT * FROM member WHERE username='{$username}' AND password='{$password}'";
+			$query = $conn->query($sql);
+        	$result = $query ? mysqli_fetch_assoc($query) : $query;
 			if ($password !== $result["password"]) {
 				$data["code"] = -1;
-                $data["msg"] = "密码错误！";
+                $data["msg"] = "密码错误！"; 
 			} else {
 				//登录成功
 				$_SESSION["id"] = $result["id"];//用户id
@@ -45,7 +48,7 @@ if($_POST["vcode"] != $_SESSION["vcode"]) {
                 $_SESSION["permissions"] = $result["permissions"];//权限级别.0-管理员，1-会员，2-用户，浏览者无
 				$data["data"] = $_SESSION;
                 foreach ($_SESSION as $k => $v) {
-                    setcookie($k, $v);
+                    setcookie($k, $v,time()+3600*12);
                 }
 			}
 		}

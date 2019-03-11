@@ -15,7 +15,7 @@ require_once "../inc/admin_check_session.php";
 </head>
 <body>
 <div class="header clearfix">
-    <div class="logo"><a href="/">LOGO</a></div>
+    <div class="logo"><a href="javascript:;">LOGO</a></div>
     <div class="nav_btn" id="nav_btn">三</div>
     <div class="search"> 
         <input type="text" class="search_text" placeholder="搜帖、问题..." id="keywords" name="keywords">

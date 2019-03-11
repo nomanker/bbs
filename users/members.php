@@ -15,7 +15,7 @@ require_once "../inc/members_check_session.php";
 </head>
 <body>
 <div class="header clearfix">
-	<div class="logo"><a href="/">LOGO</a></div>
+	<div class="logo"><a href="javascript:;">LOGO</a></div>
 	<div class="nav_btn" id="nav_btn">三</div>
 	<div class="search"> 
 		<input type="text" class="search_text" placeholder="搜帖、找人..." id="keywords" name="keywords">
@@ -252,7 +252,11 @@ $(function (){
                 }
                 var post_list = $("#post");
                 var posts = result.data;
-                for( var i = 0 , j = posts.length ; i < j ; i++) {
+                // for( var i = 0 , j = posts.length ; i < j ; i++) {
+                //     var post_dom = get_post(posts[i]);
+                //     post_list.append(post_dom);
+                // }
+                for( var i = posts.length-1 , j =  0; i >= j ; i--) {
                     var post_dom = get_post(posts[i]);
                     post_list.append(post_dom);
                 }
@@ -273,7 +277,11 @@ $(function (){
                     }
                     var ask_list = $("#ask");
                     var asks = result.data;
-                    for( var i = 0 , j = asks.length ; i < j ; i++) {
+                    // for( var i = 0 , j = asks.length ; i < j ; i++) {
+                    //     var ask_dom = get_ask(asks[i]);
+                    //     ask_list.append(ask_dom);
+                    // }
+                    for( var i = asks.length-1, j = 0  ; i >= j ; i--) {
                         var ask_dom = get_ask(asks[i]);
                         ask_list.append(ask_dom);
                     }

@@ -1,5 +1,5 @@
 <?php
-	header('Content-type:text/html;charset=utf8');
+	header('Content-type:text/html;charset=utf8');//设置页面内容/html编码格式是utf-8
 	define('DB_HOST','localhost');//数据库主机
 	define('DB_USER','root');//数据库用户名
 	define('DB_PASSWORD','');//数据库密码

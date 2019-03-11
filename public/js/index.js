@@ -19,3 +19,8 @@ var nav_btn = document.getElementById('nav_btn'),
  		nav.classList.toggle('hide');
  	}
 });
+ $(function(){
+    $('.logo').on('click',function(){
+        window.location.href = top.location.href;
+    })
+});
